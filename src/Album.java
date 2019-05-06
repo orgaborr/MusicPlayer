@@ -12,5 +12,12 @@ public class Album {
 		return albumTitle;
 	}
 	
-	
+	public int findSong(String title) {
+		for(int i=0; i<songs.size(); i++) {
+			if(songs.get(i).getTitle().equals(title)) {
+				return i;
+			}
+		}
+		return -1;
+	}
 }

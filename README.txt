@@ -1,0 +1,1 @@
+This is a simple program for creating a playlist, for practicing linked lists.

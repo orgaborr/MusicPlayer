@@ -29,6 +29,9 @@ public class Main {
 		addSong("Polly");
 		addSong("Pretender");
 		
+		removeSong("Polly");
+		removeSong("Pretender");
+		
 		
 	}
 	
@@ -46,14 +49,11 @@ public class Main {
 	}
 	
 	public static boolean addSong(String title) {
-		Iterator<Song> songIt = playList.iterator();
-		while(songIt.hasNext()) {
-			if(songIt.next().getTitle().equalsIgnoreCase(title)) {
-				System.out.println("Song already in the playlist");
-				return false;
-			}
+		if(songIsInList(title)) {
+			System.out.println("Song is already in the playlist");
+			return false;
 		}
-		
+				
 		Iterator<Album> it = myAlbums.iterator();
 		while(it.hasNext()) {
 			Album nextAlbum = it.next();
@@ -69,6 +69,35 @@ public class Main {
 		}
 
 		System.out.println("Song not found");
+		return false;
+	}
+	
+	public static boolean removeSong(String title) {
+		if(songIsInList(title)) {
+			Iterator<Song> it = playList.iterator();
+			while(it.hasNext()) {
+				Song next = it.next();
+				
+				if(next.getTitle().equalsIgnoreCase(title)) {
+					playList.remove(next);
+					System.out.println(title + " removed from list");
+					return true;
+				}
+			}
+		}
+		
+		System.out.println("Song is not in the list");
+		return false;
+	}
+	
+	public static boolean songIsInList(String title) {
+		Iterator<Song> songIt = playList.iterator();
+		while(songIt.hasNext()) {
+			if(songIt.next().getTitle().equalsIgnoreCase(title)) {
+				return true;
+			}
+		}
+		
 		return false;
 	}
 

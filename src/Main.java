@@ -24,6 +24,9 @@ public class Main {
 		
 		listMySongs();
 		
+		addSong("Awesome Mix Vol.1", "Thunderstruck");
+		addSong("Awesome Mix Vol.1", "Thunderstruck");
+		
 		
 	}
 	
@@ -41,7 +44,23 @@ public class Main {
 	}
 	
 	public static boolean addSong(String album, String title) {
+		Iterator<Album> it = myAlbums.iterator();
+		while(it.hasNext()) {
+			Album nextAlbum = it.next();
+			if(nextAlbum.getAlbumTitle().equalsIgnoreCase(album)) {
+				
+				if(nextAlbum.findSong(title) >= 0) {
+					
+					int songNumber = nextAlbum.findSong(title);
+					playList.add(nextAlbum.songs.get(songNumber));
+					System.out.println(title + " added to playlist");
+					return true;
+				}
+			}
+		}
 		
+		System.out.println("Song not found");
+		return false;
 	}
 
 }

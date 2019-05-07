@@ -22,17 +22,34 @@ public class Main {
 		awesome2.songs.add(new Song("Polly", 1.54));
 		awesome2.songs.add(new Song("Black Dog", 4.11));
 		
-		listMySongs();
+//		listMySongs();
 		
 		addSong("thunderstruck");
 		addSong("Thunderstruck");
 		addSong("Polly");
 		addSong("Pretender");
 		
-		removeSong("Polly");
-		removeSong("Pretender");
+//		removeSong("Polly");
+//		removeSong("Pretender");
+		
+		listPlayList();
+		
+		displayInstructions();
 		
 		
+	}
+	
+	public static void displayInstructions() {
+		System.out.println("Choose from the following actions: \n"
+				+ "0 - Quit\n"
+				+ "1 - Display instructions\n"
+				+ "2 - List my songs\n"
+				+ "3 - Show playlist\n"
+				+ "4 - Add song to playlist\n"
+				+ "5 - Play next song\n"
+				+ "6 - Play previous song\n"
+				+ "7 - Replay song\n"
+				+ "8 - Remove song from playlist");
 	}
 	
 	public static void listMySongs() {
@@ -99,6 +116,18 @@ public class Main {
 		}
 		
 		return false;
+	}
+	
+	public static void listPlayList() {
+		Iterator<Song> it = playList.iterator();
+		int number = 1;
+		while(it.hasNext()) {
+			Song nextSong = it.next();
+			System.out.println(number + ". " + nextSong.getTitle() + ", " +
+			nextSong.getDuration());
+			number++;
+		}
+		
 	}
 
 }

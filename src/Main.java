@@ -61,10 +61,12 @@ public class Main {
 					System.out.println("No tracks in the playlist");
 					break;
 				}
+				//the following takes care of the iterator starting point
 				if(flag == true) {
 					listIt = playList.listIterator(0);
 					flag = false;
 				}
+				//sets direction
 				if(!forward) {
 					if(listIt.hasNext()) {
 						listIt.next();

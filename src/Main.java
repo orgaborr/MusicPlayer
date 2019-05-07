@@ -24,8 +24,10 @@ public class Main {
 		
 		listMySongs();
 		
-		addSong("Awesome Mix Vol.1", "Thunderstruck");
-		addSong("Awesome Mix Vol.1", "Thunderstruck");
+		addSong("thunderstruck");
+		addSong("Thunderstruck");
+		addSong("Polly");
+		addSong("Pretender");
 		
 		
 	}
@@ -43,22 +45,29 @@ public class Main {
 		}
 	}
 	
-	public static boolean addSong(String album, String title) {
-		Iterator<Album> it = myAlbums.iterator();
-		while(it.hasNext()) {
-			Album nextAlbum = it.next();
-			if(nextAlbum.getAlbumTitle().equalsIgnoreCase(album)) {
-				
-				if(nextAlbum.findSong(title) >= 0) {
-					
-					int songNumber = nextAlbum.findSong(title);
-					playList.add(nextAlbum.songs.get(songNumber));
-					System.out.println(title + " added to playlist");
-					return true;
-				}
+	public static boolean addSong(String title) {
+		Iterator<Song> songIt = playList.iterator();
+		while(songIt.hasNext()) {
+			if(songIt.next().getTitle().equalsIgnoreCase(title)) {
+				System.out.println("Song already in the playlist");
+				return false;
 			}
 		}
 		
+		Iterator<Album> it = myAlbums.iterator();
+		while(it.hasNext()) {
+			Album nextAlbum = it.next();
+			
+			if(nextAlbum.findSong(title) >= 0) {
+				int songNumber = nextAlbum.findSong(title);
+				playList.add(nextAlbum.songs.get(songNumber));
+				
+				System.out.println(nextAlbum.songs.get(songNumber).getTitle() +
+						" added to playlist");
+				return true;
+			}
+		}
+
 		System.out.println("Song not found");
 		return false;
 	}

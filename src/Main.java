@@ -2,11 +2,13 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Iterator;
 import java.util.ListIterator;
+import java.util.Scanner;
 
 public class Main {
 	
 	public static ArrayList<Album> myAlbums = new ArrayList<Album>();
 	public static LinkedList<Song> playList = new LinkedList<Song>();
+	private static Scanner sc = new Scanner(System.in);
 
 	public static void main(String[] args) {
 		Album awesome1 = new Album("Awesome Mix Vol.1");
@@ -22,21 +24,78 @@ public class Main {
 		awesome2.songs.add(new Song("Polly", 1.54));
 		awesome2.songs.add(new Song("Black Dog", 4.11));
 		
-//		listMySongs();
-		
-		addSong("thunderstruck");
-		addSong("Thunderstruck");
-		addSong("Polly");
-		addSong("Pretender");
-		
-//		removeSong("Polly");
-//		removeSong("Pretender");
-		
-		listPlayList();
+		ListIterator<Song> listIt = playList.listIterator();
+		boolean forward = true;
+		boolean quit = false;
 		
 		displayInstructions();
 		
+		while(!quit) {
+			int choice = sc.nextInt();
+			sc.nextLine();
+			switch(choice) {
+			case 0:
+				quit = true;
+				break;
+			case 1:
+				displayInstructions();
+				break;
+			case 2:
+				listMySongs();
+				break;
+			case 3:
+				listPlayList();
+				break;
+			case 4:
+				System.out.println("Type song's title to add: ");
+				String title = sc.nextLine();
+				addSong(title);
+				break;
+			case 5:
+				if(!forward) {
+					if(listIt.hasNext()) {
+						listIt.next();
+					}
+					forward = true;
+				}
+				if(listIt.hasNext()) {
+					System.out.println("Now playing " + listIt.next().getTitle());
+				} else {
+					System.out.println("Reached the end of the tracklist");
+				}
+				break;
+			case 6:
+				if(forward) {
+					if(listIt.hasPrevious()) {
+						listIt.previous();
+					}
+					forward = false;
+				}
+				if(listIt.hasPrevious()) {
+					System.out.println("Now playing " + listIt.previous().getTitle());
+				} else {
+					System.out.println("Reached start of the tracklist");
+				}
+				break;
+			case 7:
+				listIt.previous();
+				System.out.println("Replaying " + listIt.next().getTitle());
+				break;
+			case 8:
+				System.out.println("Type song's title to remove: ");
+				String removeTitle = sc.nextLine();
+				removeSong(removeTitle);
+				break;
+			case 9:
+				addAll();
+				System.out.println("All songs added to playlist");
+				break;
+			}
+		}
+
 		
+
+		sc.close();
 	}
 	
 	public static void displayInstructions() {
@@ -49,7 +108,8 @@ public class Main {
 				+ "5 - Play next song\n"
 				+ "6 - Play previous song\n"
 				+ "7 - Replay song\n"
-				+ "8 - Remove song from playlist");
+				+ "8 - Remove song from playlist"
+				+ "9 - Add all songs to playlist");
 	}
 	
 	public static void listMySongs() {
@@ -126,8 +186,18 @@ public class Main {
 			System.out.println(number + ". " + nextSong.getTitle() + ", " +
 			nextSong.getDuration());
 			number++;
-		}
-		
+		}	
 	}
-
+	
+	public static void addAll() {
+		Iterator<Album> it = myAlbums.iterator();
+		while(it.hasNext()) {
+			Album nextAlbum = it.next();
+			for(int i=0; i<nextAlbum.songs.size(); i++) {
+				if(!songIsInList(nextAlbum.songs.get(i).getTitle()))
+				playList.add(nextAlbum.songs.get(i));
+			}
+		}
+	}
+	
 }

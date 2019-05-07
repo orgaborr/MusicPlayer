@@ -27,6 +27,7 @@ public class Main {
 		ListIterator<Song> listIt = playList.listIterator();
 		boolean forward = true;
 		boolean quit = false;
+		boolean flag = true;
 		
 		displayInstructions();
 		
@@ -44,6 +45,10 @@ public class Main {
 				listMySongs();
 				break;
 			case 3:
+				if(playList.isEmpty()) {
+					System.out.println("No tracks in the playlist");
+					break;
+				}
 				listPlayList();
 				break;
 			case 4:
@@ -52,6 +57,14 @@ public class Main {
 				addSong(title);
 				break;
 			case 5:
+				if(playList.isEmpty()) {
+					System.out.println("No tracks in the playlist");
+					break;
+				}
+				if(flag == true) {
+					listIt = playList.listIterator(0);
+					flag = false;
+				}
 				if(!forward) {
 					if(listIt.hasNext()) {
 						listIt.next();
@@ -59,12 +72,19 @@ public class Main {
 					forward = true;
 				}
 				if(listIt.hasNext()) {
-					System.out.println("Now playing " + listIt.next().getTitle());
+					Song current = listIt.next();
+					System.out.println("Now playing Track " + (playList.indexOf(current)+1)+ ": "+
+							current.getTitle());
 				} else {
 					System.out.println("Reached the end of the tracklist");
+					forward = false;
 				}
 				break;
 			case 6:
+				if(playList.isEmpty()) {
+					System.out.println("No tracks in the playlist");
+					break;
+				}
 				if(forward) {
 					if(listIt.hasPrevious()) {
 						listIt.previous();
@@ -72,14 +92,38 @@ public class Main {
 					forward = false;
 				}
 				if(listIt.hasPrevious()) {
-					System.out.println("Now playing " + listIt.previous().getTitle());
+					Song current = listIt.previous();
+					System.out.println("Now playing Track " + (playList.indexOf(current)+1)+ ": "+
+							current.getTitle());
 				} else {
 					System.out.println("Reached start of the tracklist");
+					forward = true;
 				}
 				break;
 			case 7:
-				listIt.previous();
-				System.out.println("Replaying " + listIt.next().getTitle());
+				if(playList.isEmpty()) {
+					System.out.println("No tracks in the playlist");
+					break;
+				}
+				if(flag == true) {
+					listIt = playList.listIterator(0);
+					flag = false;
+				}
+				if(!forward) {
+					if(listIt.hasNext()) {
+						listIt.next();
+					}
+					forward = true;
+				}
+				if(listIt.hasPrevious()) {
+					Song current = listIt.previous();
+					System.out.println("Replaying Track " + (playList.indexOf(current)+1)+ ": "+
+							current.getTitle());
+					listIt.next();
+					
+				} else {
+					System.out.println("No song played previously");
+				}
 				break;
 			case 8:
 				System.out.println("Type song's title to remove: ");
@@ -93,7 +137,6 @@ public class Main {
 			}
 		}
 
-		
 
 		sc.close();
 	}
@@ -108,7 +151,7 @@ public class Main {
 				+ "5 - Play next song\n"
 				+ "6 - Play previous song\n"
 				+ "7 - Replay song\n"
-				+ "8 - Remove song from playlist"
+				+ "8 - Remove song from playlist\n"
 				+ "9 - Add all songs to playlist");
 	}
 	
@@ -118,9 +161,9 @@ public class Main {
 			Album nextAlbum = it.next();
 			System.out.println("Album: " + nextAlbum.getAlbumTitle());
 			
-			for(int j=0; j<nextAlbum.songs.size(); j++) {
-				System.out.println((j+1) + ". " + nextAlbum.songs.get(j).getTitle() +
-						", " + nextAlbum.songs.get(j).getDuration());
+			for(int i=0; i<nextAlbum.songs.size(); i++) {
+				System.out.println((i+1) + ". " + nextAlbum.songs.get(i).getTitle() +
+						", " + nextAlbum.songs.get(i).getDuration());
 			}
 		}
 	}
